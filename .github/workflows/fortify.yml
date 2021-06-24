@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to check my code quality
     steps:
+    - name: get hostname
+      run: hostname
     - name: Check code meets quality standards
       id: code-inspector
       uses: codeinspectorio/github-action@master
@@ -28,6 +30,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: get hostname
+        run: hostname
       # Check out source code
       - name: Check Out Source Code
         uses: actions/checkout@v2
