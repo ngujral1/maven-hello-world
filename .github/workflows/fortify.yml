@@ -25,7 +25,7 @@ jobs:
   FoD-SAST-Scan:
     # Use the appropriate runner for building your source code. 
     # Use Windows runner for projects that use msbuild. Additional changes to RUN commands will be required.
-    runs-on: [self-hosted, linux]
+    runs-on: ubuntu-latest
 
     steps:
       # Check out source code
