@@ -1,4 +1,4 @@
-name: Fortify
+name: GHA
 
 on: [workflow_dispatch]
 
