@@ -19,7 +19,7 @@ jobs:
         code_inspector_secret_key: ${{ secrets.CODE_INSPECTOR_SECRET_KEY }}
         min_quality_grade: 'WARNING'
         min_quality_score: '50'
-        max_defects_rate: '0.0001'
+        max_defects_rate: '0.1'
         max_complex_functions_rate: '0.0001'
         max_long_functions_rate: '0.0001'
         project_name: 'pocrepo'
@@ -38,3 +38,15 @@ jobs:
       uses: hannut91/aws-cli@1.18.43
       with:
         args: codebuild start-build --project gha-test  
+  slack-notify:
+    # Use the appropriate runner for building your source code.
+    # Use Windows runner for projects that use msbuild. Additional changes to RUN commands will be required.
+    runs-on: ubuntu-latest
+    steps:
+        - name: Send custom JSON data to Slack workflow
+          id: slack
+          uses: slackapi/slack-github-action@v1.14.0
+          with:
+             payload: "{\"Name\":\"FromGitHub\"}" # This data can be any valid JSON from a previous step in the GitHub Action
+          env:
+             SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
