@@ -9,7 +9,7 @@ jobs:
     name: A job to check my code quality
     steps:
     - name: get hostname
-      run: hostname
+      run: env >> output-env
     - name: Check code meets quality standards
       id: code-inspector
       uses: codeinspectorio/github-action@master
@@ -24,29 +24,4 @@ jobs:
         max_long_functions_rate: '0.0001'
         project_name: 'pocrepo'
         max_timeout_sec: '600'
-  codebuild-trigger-build:
-    runs-on: ubuntu-18.04
-    steps:
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-session-token: ${{secrets.AWS_SESSION_TOKEN}}
-        aws-region: us-west-2
-    - name: Echo version of aws-cli
-      uses: hannut91/aws-cli@1.18.43
-      with:
-        args: codebuild start-build --project gha-test  
-  slack-notify:
-    # Use the appropriate runner for building your source code.
-    # Use Windows runner for projects that use msbuild. Additional changes to RUN commands will be required.
-    runs-on: ubuntu-latest
-    steps:
-        - name: Send custom JSON data to Slack workflow
-          id: slack
-          uses: slackapi/slack-github-action@v1.14.0
-          with:
-             payload: "{\"Name\":\"FromGitHub\"}" # This data can be any valid JSON from a previous step in the GitHub Action
-          env:
-             SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  
